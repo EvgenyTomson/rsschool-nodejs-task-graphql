@@ -14,6 +14,7 @@ import { postsLoader } from './loaders/post.js';
 import DataLoader from 'dataloader';
 import { Post, Profile } from '@prisma/client';
 import depthLimit from 'graphql-depth-limit';
+import { mutations } from './mutations/mutations.js';
 
 const depth = 5;
 
@@ -26,6 +27,7 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
   ) =>
     new GraphQLSchema({
       query: resourcesQuery(prisma, profileLoader, postsLoader),
+      mutation: mutations(prisma),
     });
 
   fastify.route({
